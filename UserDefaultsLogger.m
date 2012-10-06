@@ -109,9 +109,13 @@ enum kUserDefaultsType
 - (void)logUserDefaults
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDefaultsDictionary = [userDefaults dictionaryRepresentation];
-    
-    [self logValuesOfDictionary:userDefaultsDictionary withName:nil];
+    NSArray *allPersistentDomainNames = [userDefaults persistentDomainNames];
+    for (NSString *currentPersistenceDomain in allPersistentDomainNames) {
+        NSLog(@"Persistent Domain %@", currentPersistenceDomain);
+        NSLog(@"====================================");
+        NSDictionary *userDefaultsDictionary = [userDefaults persistentDomainForName:currentPersistenceDomain];
+        [self logValuesOfDictionary:userDefaultsDictionary withName:currentPersistenceDomain];
+    }
 }
 
 @end
